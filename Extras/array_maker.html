@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="content"></div>
+<script>
+    let Array1 = ["000xxxxxx", "1xx1xx1xx", "0xx0xx0xx", "xxx111xxx", "xxx000xxx", "xxxxxx111", "xxxxxx000", "x1xx1xx1", "x0xx0xx0", "xx1xx1xx1", "xx0xx0xx0", "1xxx1xxx1", "0xxx0xxx0", "xx1x1x1xx", "xx0x0x0xx"]
+    let arrayFinal =[];
+    let newArray = [];
+
+    for (let i = 0; i < Array1.length; i++) {
+        const element = Array1[i];
+
+        let newArray = [];
+        for(let y = 0; y < element.length; y++){
+            let elem = element[y];
+            newArray.push(elem);
+        }
+    arrayFinal.push(newArray);
+}
+console.log(arrayFinal);
+</script>
+</body>
+</html>

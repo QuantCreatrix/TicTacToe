@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIC TAC TOE</title>
+</head>
+<style>
+    body{
+        margin: 0px;
+        padding: 0px;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+
+    .container{
+        width: 1200px;
+        height: 700px;
+        margin-top: 40px;
+        margin-left: auto;
+        margin-right: auto;
+        background-image: url(paper.jpg);
+        background-size: cover;
+    }
+
+    #turnShower{
+        padding: 10px;
+        width: 20%;
+        height: max-content;
+        background-color: rgba(232, 232, 232, 0.859);
+        box-shadow: 0px 0px 2px 2px rgba(124, 124, 124, 0.901) inset;
+        border-radius: 40px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 30%;
+        overflow: hidden;
+        display: none;
+    }
+
+    #turnShower div{
+        text-align: center;
+        justify-self: center;
+        font-size: 20px;
+    }
+
+    .selected{
+        color: brown;
+        background-color: rgba(255, 255, 255, 0.711);
+        border: solid rgb(133, 133, 133);
+        box-shadow: 0px 0px 2px black inset;
+        border-radius: 10px;
+        padding: 0px 5px;
+    }
+
+    #turnShower img{
+        width: 30px;
+        height: auto;
+    }
+
+    #gameContainer{
+        display: grid;
+        width: 300px;
+        height: 300px;
+        position: absolute;
+        bottom: 20%;
+        left: 50%;
+        transform: translate(-50%);
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        background-color: transparent;
+        display: none;
+    }
+
+    .box{
+        width: 90px;
+        justify-self: center;
+        height: 90px;
+        transition: 0.3s;
+        /* background-color: rgba(128, 128, 128, 0.308); */
+    }
+
+    .box img{
+        width: inherit;
+        height: auto;
+    }
+
+    .box:hover{
+        background-color: rgba(197, 197, 197, 0.536);
+        box-shadow: 0px 0px 2px 2px gray inset;
+        border-radius: 10px;
+    }
+
+    #lineContainer{
+        display: none;
+    }
+
+    #line1{
+        position: absolute;
+        bottom: 43.8%;
+        left: 50%;
+        transform: translate(-50%);
+        transform-origin: left;
+        animation: scaleleft 0.25s linear;
+    }
+    #line2{
+        position: absolute;
+        bottom: 31%;
+        left: 50%;
+        transform: translate(-50%);
+        transform-origin: left;
+        animation: scaleleft 0.25s linear;
+        display: none;
+    }#line3,#line4{
+        rotate: 90deg;
+        display: none;
+        position: absolute;
+        bottom: 55%;
+        transform-origin: left;
+        animation: scaledown 0.25s linear;
+    }
+    #line3{
+        left: 46.5%;
+    }#line4{
+        left: 53.2%;
+        animation-duration: 0.55s;
+    }
+
+@keyframes scaleleft {
+    from{transform: translateX(-50%) scaleX(0%);}
+    to{transform: translateX(-50%) scaleX(100%);}
+}
+
+@keyframes scaledown {
+    from{transform: scale(0%);}
+    to{transform: scale(100%);}
+}
+
+    #feather{
+        position: absolute;
+        top: 72%;
+        left: 52.5%;
+        animation: feather 2s linear;
+        display: none;
+    }
+
+@keyframes feather{
+    0%{top: 45.8%; left: 40%;}
+    12.5%{top: 45.8%; left: 60%;}
+    25%{top: 59%; left: 40%;}
+    37.5%{top: 59%; left: 60%;}
+
+    50%{top: 35%; left: 46%;}
+    62.5%{top: 72%; left: 46%;}
+    75%{top: 35%;left: 52.5%;}
+    100%{top: 72%; left: 52.5%;}
+}
+
+/* Start BUTTON styling */
+#start{
+    border: none;
+    background-color: transparent;
+    text-align: center;
+    width: 120px;
+    top: 10%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+    /* filter: drop-shadow(2px 5px 10px black); */
+}
+
+#start img{
+    width: 40%;
+}
+
+#feather2{
+    position: absolute;
+    top: -50%;
+    z-index: -1;
+    left: 50%;
+    transition: 0.5s ease-in;
+}
+
+#start:hover #feather2{
+    transform: translateY(-20%);
+}
+
+#result{
+    width: 500px;
+    height: 500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-image: url(bg1.jpg);
+    background-size: cover;
+    border-radius: 30px;
+    text-align: center;
+    animation: growUp 1s;
+    transform-origin: center;
+}
+
+@keyframes growUp {
+    from{transform: translate(-50%,-50%) scale(0%);}
+    to{transform: translate(-50%,-50%) scale(100%);}
+}
+
+#comment{
+    width: max-content;
+    margin-top: 10%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 50px;
+    color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    padding: 5px;
+    box-shadow: 0px 0px 5px black inset;
+}
+
+#result button{
+    margin-top: 60%;
+    font-size: 20px;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+    padding: 10px;
+    box-shadow: 0px 0px 5px black inset;
+    cursor: pointer;
+}
+</style>
+<body>
+    <div class="container">
+        <button id = "start" onclick="start()">
+            <img src="feather.png" alt="" id = "feather2">
+            <img src="inkpot.png" alt="">
+            <br>
+            Start
+        </button>
+
+        <div id="turnShower">
+            <div id ="cross">   
+                <img src="cross.png" alt=""><br>Turn
+            </div>
+            <div id = "circle">
+                <img src="circle.png" alt=""><br>Turn
+            </div>
+        </div>
+
+        <div id="feather1">
+            <img src="feather.png" alt="" id="feather" style = "width: 70px;">
+        </div>
+
+        <div id="gameContainer">
+            <div class="box">
+                <img src="" alt="">
+            </div>
+            <div class="box">
+                <img src="" alt="">
+            </div>
+            <div class="box">
+                <img src="" alt="">
+            </div>
+            <div class="box">
+                <img src="" alt="">
+            </div>
+            <div class="box">
+                <img src="" alt="">
+            </div>
+            <div class="box">
+                <img src="" alt="">
+            </div>
+            <div class="box">
+                <img src="" alt="">
+            </div>
+            <div class="box">
+                <img src="" alt="">
+            </div>
+            <div class="box">
+                <img src="" alt="">
+            </div>
+        </div>
+
+        <div id="lineContainer">
+            <div><img src="line.png" alt="" id="line1"></div>
+            <div><img src="line.png" alt="" id="line2"></div>
+            <div><img src="line.png" alt="" id="line3"></div>
+            <div><img src="line.png" alt="" id="line4"></div>
+        </div>
+</div>
+<div id="result" style = "display:none;">
+    <div id="comment"> Hello World !</div>
+    <button onclick = "reset()">Play Again</button>
+</div>
+
+<script>
+// Animation code and Start game
+let turn = '';
+let turnArray = ['circle', 'cross'];
+function start(){
+        turn = turnArray[(Math.floor(Math.random() * turnArray.length))];
+        console.log(turn);
+        document.getElementById("turnShower").style.display = "grid";
+        document.getElementById("feather").style.display = "block";
+        document.getElementById("lineContainer").style.display = "block";
+        document.getElementById("feather2").style.display = "none";
+        setTimeout(function() {document.getElementById("line2").style.display = "block"}, 500);
+        setTimeout(function() {document.getElementById("line3").style.display = "block"}, 1000);
+        setTimeout(function() {document.getElementById("line4").style.display = "block"}, 1500);
+        setTimeout(function() {document.getElementById("gameContainer").style.display = "grid"}, 2100);
+        document.getElementById(turn).classList.add('selected');
+        let cur = "url(" + turn + "_cur.png), auto";
+        console.log(cur);
+        document.querySelector('#gameContainer').style.cursor = cur;
+        setTimeout(function(){document.getElementById("feather").style.display = "none";}, 3100);
+    }
+
+// Click Events Code
+let boxes = document.getElementById('gameContainer').children;
+let count = 0;
+let winner = '';
+
+for (let i = 0; i < boxes.length; i++) {
+        const box = boxes[i];
+        box.addEventListener('click', ()=>{
+            count+=1;
+            if(turn === "cross"){
+                box.children[0].alt = "cross";
+                box.children[0].src = "cross.png";
+                document.querySelector('#gameContainer').style.cursor = "url(circle_cur.png), auto";
+                document.getElementById('cross').classList.remove('selected');
+                document.getElementById('circle').classList.add('selected');
+                turn = "circle";
+            }else if(turn === "circle"){
+                box.children[0].alt = "circle";
+                box.children[0].src = "circle.png";
+                document.querySelector('#gameContainer').style.cursor = "url(cross_cur.png), auto";
+                document.getElementById('circle').classList.remove('selected');
+                document.getElementById('cross').classList.add('selected');
+                turn = "cross";
+            }
+
+        if(count>=5){
+            winCheck();
+        }
+        if(count === 9){
+            tie();
+        }
+        });
+    }
+
+// Win Code
+let winArray = [
+    [0,3,6], [1,4,7], [2,5,8], [0,1,2], [3,4,5,], [6,7,8], [0,4,8], [2,4,6]
+]
+
+
+function winCheck(){
+    for(let z = 0; z < winArray.length; z++){
+        let windex = winArray[z];
+        console.log(windex);
+        let q = windex[0];
+        let w = windex[1];
+        let r = windex[2];
+        let alt1 = boxes[q].children[0].alt;
+        let alt2 = boxes[w].children[0].alt;
+        let alt3 = boxes[r].children[0].alt;
+        
+        if(alt1 === alt2 && alt3 === alt2){
+            if(alt1 === "cross"){
+                winner = "Cross";
+                console.log("cross won");
+                result();
+            }else if(alt1 === "circle"){
+                winner = "Circle";
+                console.log("Circle won");
+                result();
+            }else{
+                winner = '';
+            }
+        }
+    }
+}
+
+function tie(){
+    if(winner === ''){
+        winner = "";
+        console.log("Tie");
+        result();
+    }
+}
+
+function result(){
+    document.querySelector(".container").style.display = "none";
+    document.querySelector("#result").style.display = "block";
+    if(winner === "Cross"){
+        document.querySelector("#comment").innerText = "Cross Won";
+    }else if (winner === "Circle"){
+        document.querySelector("#comment").innerText = "Circle Won";
+    }else{
+        document.querySelector("#comment").innerText = "Its a tie";
+    }
+}
+
+function reset(){
+    window.location.reload();
+}
+</script>
+</body>
+</html>

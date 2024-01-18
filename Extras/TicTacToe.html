@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+</head>
+<style>
+    body{
+        margin: 0px;
+        padding: 0px;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        background-image: url(bg.jpg);
+        background-size: cover;
+    }
+
+    h1{
+        text-align: center;
+        color: rgb(128, 90, 52);
+    }
+
+    #board_container{
+        width: 900px;
+        height: 500px;
+        margin-top: 7vh;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: rgb(255, 255, 255);
+        box-shadow: 0px 0px 5px 2px black inset;
+        backdrop-filter: blur(3px);
+        background-size: cover;
+        position: relative;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    #turn_container{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 40%;
+        margin-left: auto;
+        margin-right: auto;
+        height: max-content;
+        color: rgb(255, 255, 255);
+        text-align: center;
+        margin-top: 20px;
+        border-radius: 50px;
+        background-image: url(bg1.jpg); 
+        background-size: cover;
+        box-shadow: 0px 0px 2px 2px rgba(128, 128, 128, 0.593) inset;
+        backdrop-filter: blur(5px);
+        overflow: hidden;
+    }
+
+    #turn_container div{
+        width: 100%;
+        height: inherit;
+        justify-self: center;
+        backdrop-filter: blur(2px); 
+    }
+
+    #turn_container img{
+        height: 50px;
+    }
+
+    .selected, .selected2{
+        background-color: rgba(146, 107, 50, 0.86);
+    }.selected{
+        border-top-left-radius: 40px;
+        border-bottom-left-radius: 40px;
+    }.selected2{
+        border-top-right-radius: 40px;
+        border-bottom-right-radius: 40px;
+    }
+
+    #ticContainer{
+        /* display: none; */
+        width: 70%;
+        height: 100%;
+        position: absolute;
+        margin-left: 18%;
+        transform: scale(0.9);
+    }
+
+    #feather, #feather2{
+        width: 100px;
+        height: auto;
+        position: absolute;
+    }
+
+    #feather{
+        top: 40%;
+        left: 65%;
+        animation: feather 4s ease-in-out;
+    }
+
+    #line1, #line2{
+        position: absolute;
+        margin: 10px;
+        transform-origin: left; 
+        animation: scaleUp 0.5s linear;
+        rotate: 90deg;
+    }
+
+    #line3, #line4{
+        position: absolute;
+        margin: 10px;
+        transform-origin: left; 
+    }
+
+    #line1{
+        top: 10%;
+        left: 34%;
+    }#line2{
+        top: 10%;
+        left: 51%;
+        /* animation-delay: 1s; */
+    }
+
+    /* #line2, #line3, #line4{
+        display: none;
+    } */
+
+    #line3{
+        top: 33%;
+        left: 20%;
+        animation: scaleUp 0.5s ease-in-out;
+    }#line4{
+        left: 20%;
+        top: 55%;
+        animation: scaleUp 1s ease-in-out;
+    }
+
+/* @keyframes scaleUp {
+    from{transform: scaleX(0%);}
+    to{transform: scaleX(100%);}
+}
+
+@keyframes feather{
+    0%{top: 0%; left: 34%;}
+    12.5%{top: 70%; left: 34%;}
+    25%{top: 0%; left: 52%;}
+    37.5%{top: 70%; left: 52%;}
+
+    50%{top: 18%; left: 15%;}
+    62.5%{top: 18%; left: 65%;}
+    75%{top: 40%;left: 15%;}
+    100%{top: 40%; left: 65%;}
+} */
+
+#start{
+    border: none;
+    background-color: transparent;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: center;
+    width: 150px;
+    position: absolute;
+    margin-top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+    margin-top: 70px;
+    filter: drop-shadow(2px 5px 10px black);
+    color: white;
+    font-size: 20px;
+}
+
+#start img{
+    width: 40%;
+}
+
+#feather2{
+    top: -50%;
+    left: 40%;
+    transition: 0.5s ease-in;
+}
+
+#start:hover #feather2{
+    transform: translateY(-20%);
+}
+
+#ticGrid{
+    position: absolute;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    top: 36%;
+    left: 32.3%;
+    scale: 0.9;
+    /* display: none; */
+}
+
+#ticGrid div{
+    width: 100px;
+    height: 100px;
+    transform: scale(0.85);
+    cursor: pointer;
+}
+
+/* #box:hover{
+    background-image: url(cross.png);
+    background-size: cover;
+    opacity: 0.4;
+} */
+
+#box img{
+    scale: 0.7;
+    width: 100%;
+    height: auto;
+}
+</style>
+<body>
+    <h1>Tic Tac Toe</h1>
+    <div class="container">
+    <div id="board_container">
+        <div id="turn_container">
+            <div id = "crossTurn">
+                <img src="cross.png" alt=""><br>Turn
+            </div>
+            <div id = "circleTurn">
+                <img src="circle.png" alt=""><br>Turn
+            </div>
+        </div>
+
+        <div id="ticContainer">
+            <div id="feather1">
+                <img src="feather.png" alt="" id="feather">
+            </div>
+
+            <div id="line1">
+                <img src="line.png" alt="" id="line_img">
+            </div>
+            <div id="line2">
+                <img src="line.png" alt="" id="line_img">
+            </div>
+            <div id="line3">
+                <img src="line.png" alt="" id="line_img">
+            </div>
+            <div id="line4">
+                <img src="line.png" alt="" id="line_img">
+            </div>
+        </div>
+
+        <div id="ticGrid">
+
+            <div id = "box" style="border-top-left-radius: 10px;">
+                <img src="" alt="">
+            </div>
+            <div id = "box">
+                <img src="" alt="">
+            </div>
+            <div id = "box" style="border-top-right-radius: 10px;">
+                <img src="" alt="">
+            </div>
+            <div id = "box">
+                <img src="" alt="">
+            </div>
+            <div id = "box">
+                <img src="" alt="">
+            </div>
+            <div id = "box">
+                <img src="" alt="">
+            </div>
+            <div id = "box" style="border-bottom-left-radius: 10px;">
+                <img src="" alt="">
+            </div>
+            <div id = "box">
+                <img src="" alt="">
+            </div>
+            <div id = "box" style="border-bottom-right-radius: 10px;">
+                <img src="" alt="">
+            </div>
+
+        </div>
+
+    </div>
+
+        <button id = "start" onclick="start()">
+            <img src="feather.png" alt="" id = "feather2">
+            <img src="inkpot.png" alt="">
+            <br>
+            Start
+        </button>
+    </div>
+
+<script>
+// Lines appearing script
+    // function start(){
+    //     document.getElementById("ticContainer").style.display = "block";
+        
+    //     setTimeout(function() {document.getElementById("line2").style.display = "block"}, 1000);
+    //     setTimeout(function() {document.getElementById("line3").style.display = "block"}, 2000);
+    //     setTimeout(function() {document.getElementById("line4").style.display = "block"}, 3000);
+
+    //     document.getElementById("feather2").style.display = "none";
+    //     setTimeout(function() {document.getElementById("ticGrid").style.display = "grid"}, 3100);
+    // }
+
+// Game Code for two players
+let turn = "";
+let boxes = document.getElementById('ticGrid').children;
+let count = 0;
+let winner = '';
+
+for (let i = 0; i < boxes.length; i++) {
+        const box = boxes[i];
+        box.addEventListener('click', ()=>{
+            count+=1;
+            if(turn === "cross"){
+                box.children[0].alt = "cross";
+                box.children[0].src = "cross.png";
+                turn = "circle";
+            }else if(turn === "circle"){
+                box.children[0].alt = "circle";
+                box.children[0].src = "circle.png";
+                turn = "cross";
+            }
+
+        if(count>=5){
+            winCheck();
+        }
+        });
+    }
+
+// Win Code
+let winArray = [
+    [0,3,6], [1,4,7], [2,5,8], [0,1,2], [3,4,5,], [6,7,8], [0,4,8], [2,4,6]
+]
+
+
+function winCheck(){
+    for(let z = 0; z < winArray.length; z++){
+        let windex = winArray[z];
+        console.log(windex);
+        let q = windex[0];
+        let w = windex[1];
+        let r = windex[2];
+        let alt1 = boxes[q].children[0].alt;
+        let alt2 = boxes[w].children[0].alt;
+        let alt3 = boxes[r].children[0].alt;
+        
+        if(alt1 === alt2 && alt3 === alt2){
+            if(alt1 === "cross"){
+                winner = "Cross";
+                console.log("cross won");
+                result();
+            }else if(alt1 === "circle"){
+                winner = "Circle";
+                console.log("Circle won");
+                result();
+            }
+        }
+    }
+}
+
+function result(){
+    if(winner === "Cross"){
+        document.querySelector(".result").innerText = "Cross Won";
+    }else{
+        document.querySelector(".result").innerText = "Circle Won";
+    }
+}
+
+</script>
+</body>
+</html>
